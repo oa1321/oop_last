@@ -107,6 +107,7 @@ if you are stuck on doctor oak screen press enter
 
 you will have the points and moves amount and also the time left shown also in the left up corner
 
+![plot](https://github.com/oa1321/oop_last/blob/2c767d6a66543f99d31d058cd333abf31e03f57f/gui1.png)
 
 ## Tests and tests and tests
 
