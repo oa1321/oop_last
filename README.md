@@ -227,6 +227,8 @@ case 15 -
 
 
 
+### Digram
+![image](https://user-images.githubusercontent.com/73098848/148686122-30ebc207-e29e-4cb9-ae39-578dadcba684.png)
 
 
 
