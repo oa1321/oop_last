@@ -18,6 +18,13 @@ class GuiStuff:
     agents = None
     algo_s: AlgoStuff = None
 
+    """
+    the constructor of the class 
+    client is client tom connect to using the client class, 
+    net graph is a di graph, 
+    graph info is a graph in raw form as given from the client
+    info is the game info
+    """
     def __init__(self, client, net_graph: DiGraph(), graph_info, info):
         self.client = client
         self.my_graph = net_graph
@@ -46,6 +53,9 @@ class GuiStuff:
         if y:
             return self.scale(data, 50, self.screen.get_height() - 50, self.min_y, self.max_y)
 
+    """
+    getting the min and max values of the of the graph
+    """
     def set_graph_bounds(self):
         self.min_x = min(list(self.graph.Nodes), key=lambda n: n.pos.x).pos.x
         self.min_y = min(list(self.graph.Nodes), key=lambda n: n.pos.y).pos.y
@@ -54,7 +64,10 @@ class GuiStuff:
 
 
     def start_of_game(self):
-
+        """
+        handeling the start sequence , dr oak and start screen
+        :return:
+        """
         running = True
         bg = pygame.image.load("imges/bg.png")
         bg = pygame.transform.scale(bg, (self.WIDTH, self.HEIGHT))
@@ -90,6 +103,13 @@ class GuiStuff:
 
 
     def game_loop(self):
+        """
+        game loop -
+        handels new data and drawing to the screen
+        calls the algo calss the know where to put the agents
+
+        :return:
+        """
         start_time = self.client.time_to_end()
         while self.client.is_running() == 'true':
             pokemons = json.loads(self.client.get_pokemons(),
@@ -185,8 +205,6 @@ class GuiStuff:
             self.algo_s.pokemons = pokemons
 
             run_move = self.algo_s.next_node2()
-            print(agents)
-            print(run_move)
             self.client.move()
             ttl = self.client.time_to_end()
             info = json.loads(self.client.get_info(),
@@ -205,4 +223,7 @@ class GuiStuff:
             self.clock.tick(10)
             if int(ttl) <= 100:
                 self.client.stop()
+                return True
+
+
 

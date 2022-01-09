@@ -16,6 +16,12 @@ class AlgoStuff:
     agents = None
     graph_info = None
 
+    """
+        the constructor of the class 
+        client is client tom connect to using the client class, 
+        graph is a di graph, 
+        info is the game info
+        """
     def __init__(self, client, graph: DiGraph, info):
         self.client = client
         self.my_graph: DiGraph = graph
@@ -23,23 +29,37 @@ class AlgoStuff:
         self.agents_path = []
         self.agents_prev = []
 
+    """
+    adding agents to the game 
+    calc where to put them.
+    """
     def add_agents_algo(self):
-        print(int(self.game_info.agents))
-        runner = 0
-        pk_runner = 0
+        if self.client is not None:
+            print(int(self.game_info.agents))
+            runner = 0
+            pk_runner = 0
 
-        while runner < int(self.game_info.agents):
-            self.agents_path.append([])
-            self.client.add_agent("{\"id\":"+str(int(self.pokemons[pk_runner].src_node))+"}")
-            self.agents_prev.append(int(self.pokemons[pk_runner].src_node))
-            pk_runner = (pk_runner+1) % len(self.pokemons)
-            runner += 1
+            while runner < int(self.game_info.agents):
+                self.agents_path.append([])
+                self.client.add_agent("{\"id\":"+str(int(self.pokemons[pk_runner].src_node))+"}")
+                self.agents_prev.append(int(self.pokemons[pk_runner].src_node))
+                pk_runner = (pk_runner+1) % len(self.pokemons)
+                runner += 1
+        else:
+            return False
 
+    """
+    calc the dist between 2 points
+    """
     def dist(self, x1, y1, x2, y2):
         return py_math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
 
+    """
+    calc thee src node and dest node of each pokemon, used for the algorithem 
+    """
     def calc_src_node(self, pokemon):
-
+        if self.my_graph is None:
+            return False
         min_index_src = -1
         min_index_dest = -1
         min_dist = float('inf')
@@ -70,9 +90,14 @@ class AlgoStuff:
                 pokemon.src_node = min_index_dest
                 pokemon.dst_node = min_index_src
 
+    """
+    calc the next node of the agents 
+    """
     def next_node2(self):
+        if self.client is None or self.my_graph is None:
+            return False
         """
-        by the social distncing and mac value path algo
+        by the social distncing and max value path algo
         try not to colide as much as they can
         but still go to best path
         :return:
